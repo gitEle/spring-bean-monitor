@@ -1,0 +1,47 @@
+name: Build Spring Bean Monitor Agent
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  # 允许手动触发工作流
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 检出代码
+      - uses: actions/checkout@v3
+
+      # 设置 JDK 环境
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      # 使用 Maven 构建项目
+      - name: Build with Maven
+        run: mvn -B package --file spring-bean-monitor-agent/pom.xml
+
+      # 上传构建产物
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spring-bean-monitor-agent
+          path: spring-bean-monitor-agent/target/spring-bean-monitor-agent-*.jar
+          retention-days: 5
+
+      # 如果是发布版本，创建 Release
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            spring-bean-monitor-agent/target/spring-bean-monitor-agent-*.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 

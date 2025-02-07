@@ -114,3 +114,6 @@ Top beans by self initialization time (excluding dependencies):
    - 如果遇到类转换错误，检查目标类是否已被其他 Agent 修改
    - 确保 ASM 库版本与应用使用的其他 ASM 相关库兼容
 
+## 构建状态
+![Build Status](https://github.com/{owner}/{repo}/actions/workflows/build.yml/badge.svg)
+
