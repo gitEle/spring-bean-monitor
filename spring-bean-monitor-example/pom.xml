@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.beanmonitor</groupId>
+        <artifactId>spring-bean-monitor</artifactId>
+        <version>1.0.0</version>
+    </parent>
+
+    <artifactId>spring-bean-monitor-example</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>Spring Bean Monitor Example</name>
+    <description>
+        Spring Bean 初始化监控示例项目，展示监控工具的使用方法和效果。
+        包含多个典型的 Bean 初始化场景，如数据库连接、缓存系统等，
+        帮助开发者理解和优化 Spring Bean 的初始化性能。
+    </description>
+
+    <properties>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <spring-boot.version>2.7.18</spring-boot.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.github.beanmonitor</groupId>
+            <artifactId>spring-bean-monitor-agent</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.7.18</version>
+                <configuration>
+                    <agents>
+                        <agent>
+                            ${project.basedir}/../spring-bean-monitor-agent/target/spring-bean-monitor-agent-1.0.0.jar
+                        </agent>
+                    </agents>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
